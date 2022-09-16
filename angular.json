@@ -31,6 +31,15 @@
             "tsConfig": "projects/ngx-strong-router/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-strong-router/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-strong-router/**/*.ts",
+              "projects/ngx-strong-router/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -133,6 +142,15 @@
               "projects/showcase/src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/showcase/**/*.ts",
+              "projects/showcase/**/*.html"
+            ]
           }
         }
       }
