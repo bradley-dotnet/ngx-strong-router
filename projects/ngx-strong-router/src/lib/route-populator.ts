@@ -1,20 +1,49 @@
-import { Type } from '@angular/core';
-import { Routes } from '@angular/router';
-import { LazyChildren } from './strong-route.model';
+import { EnvironmentProviders, Provider, Type } from '@angular/core';
+import { Route, Routes } from '@angular/router';
+import { LazyChild } from './strong-route.model';
 
-export const populateComponents = <TEntries extends number>(
-    map: Record<TEntries, Type<any>>,
-    routes: LazyChildren<unknown, TEntries>[]) => {
-    routes.forEach(r => {
-        if (r.component != null) {
-            // Replace the enum with the actual component
-            // Types differ here of course; but that's OK
-            r.component = map[r.component] as any;
+interface EntryFields {
+    component: Type<any>;
+    providers: Array<Provider | EnvironmentProviders>;
+}
+
+type RouteItems = EntryFields | Type<any> | Array<Provider | EnvironmentProviders>;
+
+export const populateRoutes:  <TEntries extends number>(map: Record<TEntries, RouteItems>, routes: LazyChild<unknown, TEntries>[]) => Routes = 
+    <TEntries extends number>(
+    map: Record<TEntries, RouteItems>,
+    routes: LazyChild<unknown, TEntries>[]) => {
+    return routes.map(r => {
+        let update: Partial<Route> = {}
+        if (r.routeEntry != null) {
+            const entry = map[r.routeEntry]
+            if (typeof entry === 'function') {
+                update = {
+                    component: entry
+                };
+            } else if (Array.isArray(entry)) {
+                update = {
+                    providers: entry
+                }
+            }
+            else {
+                update = {
+                    component: entry.component,
+                    providers: entry.providers
+                }
+            }
         }
 
         if (r.children) {
-            populateComponents(map, r.children)
+            update = {
+                ...update,
+                children: populateRoutes(map, r.children)
+            }
         }
+        const {routeEntry, ...updated} = {
+            ...r,
+            ...update
+        };
+        return updated;
     });
-    return routes as Routes;
 }

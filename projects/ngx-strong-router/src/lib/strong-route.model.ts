@@ -8,12 +8,12 @@ export interface EagerRoute<TNavTargets> extends Omit<Route, 'loadChildren'> {
 
 export interface LazyRoute<TNavTargets, TComponent extends number> extends Omit<Route, 'component' | 'children' | 'loadChildren'> {
     loadChildren: LoadChildren;
-    childRouteConfigs: (LazyChildren<TNavTargets, TComponent> | LazyRoute<TNavTargets, number>)[];
+    childRouteConfigs: (LazyChild<TNavTargets, TComponent> | LazyRoute<TNavTargets, number>)[];
 }
 
-export interface LazyChildren<TNavTargets, TComponent extends number> extends Omit<EagerRoute<TNavTargets>, 'component' | 'children'> {
-    component?: TComponent;
-    children?: LazyChildren<TNavTargets, TComponent>[];
+export interface LazyChild<TNavTargets, TComponent extends number> extends Omit<EagerRoute<TNavTargets>, 'component' | 'providers' | 'children'> {
+    routeEntry?: TComponent;
+    children?: LazyChild<TNavTargets, TComponent>[];
 }
 
 export type StrongRoute<TNavTargets> = EagerRoute<TNavTargets> | LazyRoute<TNavTargets, number>;
