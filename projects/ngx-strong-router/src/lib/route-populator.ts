@@ -7,11 +7,11 @@ interface EntryFields {
     providers: Array<Provider | EnvironmentProviders>;
 }
 
-type RouteItems = EntryFields | Type<any> | Array<Provider | EnvironmentProviders>;
+export type RouteEntry = EntryFields | Type<any> | Array<Provider | EnvironmentProviders>;
 
-export const populateRoutes:  <TEntries extends number>(map: Record<TEntries, RouteItems>, routes: LazyChild<unknown, TEntries>[]) => Routes = 
+export const populateRoutes:  <TEntries extends number>(map: Record<TEntries, RouteEntry>, routes: LazyChild<unknown, TEntries>[]) => Routes = 
     <TEntries extends number>(
-    map: Record<TEntries, RouteItems>,
+    map: Record<TEntries, RouteEntry>,
     routes: LazyChild<unknown, TEntries>[]) => {
     return routes.map(r => {
         let update: Partial<Route> = {}
