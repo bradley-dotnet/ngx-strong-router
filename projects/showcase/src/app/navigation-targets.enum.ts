@@ -1,5 +1,6 @@
 export enum NavigationTargets {
     Home,
     TheoryHome,
-    SetupHome
+    SetupHome,
+    Api
 }

@@ -71,6 +71,7 @@
               "projects/showcase/src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
               "projects/showcase/src/styles.scss"
             ],
             "scripts": []
@@ -139,6 +140,7 @@
               "projects/showcase/src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/purple-green.css",
               "projects/showcase/src/styles.scss"
             ],
             "scripts": []

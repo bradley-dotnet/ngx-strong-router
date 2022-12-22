@@ -16,7 +16,6 @@ const routes: StrongRoute<NavigationTargets>[] = [
   // Test lazy loaded standalone routes
   {
     path: 'setup',
-    loadComponent: () => import('./setup/setup-root/setup-root.component').then(c => c.SetupRootComponent), // Ensure lazy component still works
     loadChildren: () => import('./setup/setup.populated-routes').then(r => r.populatedSetupRoutes),
     childRouteConfigs: setupRoutes,
     navigationTarget: NavigationTargets.SetupHome
@@ -27,6 +26,12 @@ const routes: StrongRoute<NavigationTargets>[] = [
     loadChildren: () => import('./theory/theory.module').then(m => m.TheoryModule),
     childRouteConfigs: theoryRoutes,
     navigationTarget: NavigationTargets.TheoryHome
+  },
+  // Ensure lazy component still works
+  {
+    path: 'api',
+    loadComponent: () => import('./api/api.component').then(c => c.ApiComponent),
+    navigationTarget: NavigationTargets.Api
   }
 ];
 
