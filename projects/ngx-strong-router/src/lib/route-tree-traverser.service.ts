@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { StrongRoute, EagerRoute, LazyChild, LazyRoute } from './strong-route.model';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class RouteTreeTraverserService<TNavTargets> {
   public mapTargets(routes: StrongRoute<TNavTargets>[]): Map<TNavTargets, string[]> {

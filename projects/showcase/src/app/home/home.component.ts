@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationTargets } from '../navigation-targets.enum';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
+  public NavigationTargets: typeof NavigationTargets = NavigationTargets;
 }

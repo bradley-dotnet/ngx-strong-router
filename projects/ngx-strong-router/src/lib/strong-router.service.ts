@@ -4,7 +4,7 @@ import { StrongRoute } from './strong-route.model';
 import { RouteTreeTraverserService } from './route-tree-traverser.service';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class StrongRouter<TNavTargets> {
   private targetCache: Map<TNavTargets, string[]>;

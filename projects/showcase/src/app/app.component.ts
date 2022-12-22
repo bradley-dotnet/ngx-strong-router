@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationTargets } from './navigation-targets.enum';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  public NavigationTargets: typeof NavigationTargets = NavigationTargets;
 }

@@ -1,16 +1,21 @@
 import { LocationStrategy } from '@angular/common';
-import { Attribute, Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { Attribute, Directive, ElementRef, forwardRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { StrongRouter } from './strong-router.service';
 
 @Directive({
   selector: '[ngxStrongRouterLink]',
-  standalone: true
+  standalone: true,
+  providers: [{ provide: RouterLink, useExisting: forwardRef(() => StrongRouterLink)}]
 })
 // Follow the router link directive naming scheme for ease of import
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class StrongRouterLink<TNavTargets> extends RouterLink implements OnChanges {
   @Input() public ngxStrongRouterLink: TNavTargets | undefined;
+  @Input() public routeParams: Record<string, any> | undefined;
+  @Input() public navigateRelative: true | false | undefined;
+
+  private currentRoute: ActivatedRoute;
   
   constructor(
     private readonly strongRouter: StrongRouter<TNavTargets>,
@@ -21,12 +26,17 @@ export class StrongRouterLink<TNavTargets> extends RouterLink implements OnChang
     el: ElementRef,
     locationStrategy?: LocationStrategy) {
     super(router, route, tabIndexAttribute, renderer, el, locationStrategy);
+    this.currentRoute = route; // Because the one in RouterLink is private
   }
 
   override ngOnChanges(changes: SimpleChanges): void {
-    if (changes['ngxStrongRouterLink']) {
-      const url = this.strongRouter.generateLinkTo(changes['ngxStrongRouterLink'].currentValue);
-      this.routerLink = url;
+    if (changes['ngxStrongRouterLink'] || changes['routeParams'] || changes['navigateRelative']) {
+      if(this.ngxStrongRouterLink) {
+        const url = this.navigateRelative ?
+          this.strongRouter.generateLinkRelativeTo(this.ngxStrongRouterLink, this.currentRoute.snapshot, this.routeParams) :
+          this.strongRouter.generateLinkTo(this.ngxStrongRouterLink, this.routeParams);
+        this.routerLink = url;
+      }
     }
     super.ngOnChanges(changes);
   }
