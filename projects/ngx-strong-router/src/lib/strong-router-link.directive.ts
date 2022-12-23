@@ -31,7 +31,7 @@ export class StrongRouterLink<TNavTargets> extends RouterLink implements OnChang
 
   override ngOnChanges(changes: SimpleChanges): void {
     if (changes['ngxStrongRouterLink'] || changes['routeParams'] || changes['navigateRelative']) {
-      if(this.ngxStrongRouterLink) {
+      if(this.ngxStrongRouterLink != null) {
         const url = this.navigateRelative ?
           this.strongRouter.generateLinkRelativeTo(this.ngxStrongRouterLink, this.currentRoute.snapshot, this.routeParams) :
           this.strongRouter.generateLinkTo(this.ngxStrongRouterLink, this.routeParams);

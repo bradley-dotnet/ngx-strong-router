@@ -1,0 +1,22 @@
+<h1>URLs are Magic</h1>
+<section>
+    Ever since the beginning of the web, pages have been accessed via a URL. The only way to get to another page is to use it's
+    well-known location. Thus, for all intents and purposes, page URLs are magic strings. Or more precisely, a set of magic strings; once
+    pieces like route parameters are accounted for.
+</section>
+<br/>
+<section>
+    Like all magic strings, URLs must be kept in-sync in every place that they are used. Links and navigation commands must
+    match the structure of the routing system (in Angular, the routing table). The failure to do so even got a name: "link rot". But for much
+    of the web's existence, magic strings were the order of the day. Javascript referenced magic IDs in the DOM, and even the fields
+    within were referenced without any compile-time validation.
+</section>
+<br/>
+<section>
+    Of course, with the advent of TypeScript those magic field names became compiler-checked types. And Angular has provided a number of ways
+    to reference services and even template elements by type instead of name. However, URLs have stayed the same.
+</section>
+
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.TheoryRefactoringMishaps" mat-flat-button color="accent">Next</a>

@@ -1,0 +1,27 @@
+<h1>Almost There: Named Routes</h1>
+
+<section>
+    One way to address this problem is to create a list of all possible routes in a central location. Then all links and navigation
+    are done against this master list. To accomodate route parameters, string replacement is used similar to the way the router
+    actually works at runtime. The master list is then keyed by its own list of magic strings, often stored in an enum.
+    Due to these magic keys, the concept can be referred to as "Named Routing".
+</section>
+<br/>
+<section>
+    This approach certainly has its merits. Instead of having to keep a widely spread collection of links correct, only one
+    service needs to be maintained. There's nothing special about the routing configuration required for this design either.
+    It's also able to detect if incorrect route parameters are supplied, as it can parse out the list of expected keys from
+    the stored URL.
+</section>
+<br/>
+<section>
+    However, named routes also has a few downsides. The list still needs to be maintained, and a typo inside of it creates a
+    broken link bug as surely as it would anywhere else. If the keys are not stored in a global enum, those are also susceptible to
+    being mistyped elsewhere in the code. It also is unable to detect any potential issues in the routing configuration, like
+    ambiguous routes, as it is just a collection of routes it <i>thinks</i> exists.
+</section>
+
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.TheoryRefactoringMishaps" mat-flat-button color="accent">Back</a>
+<a [ngxStrongRouterLink]="NavigationTargets.TheoryStrongRoutes" mat-flat-button color="accent">Next</a>

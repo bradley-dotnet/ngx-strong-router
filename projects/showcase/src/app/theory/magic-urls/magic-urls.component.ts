@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { NavigationTargets } from '../../navigation-targets.enum';
 
 @Component({
-  selector: 'app-theory-root',
-  templateUrl: './theory-root.component.html',
-  styleUrls: ['./theory-root.component.scss']
+  selector: 'app-magic-urls',
+  templateUrl: './magic-urls.component.html',
+  styleUrls: ['../theory-page.scss']
 })
-export class TheoryRootComponent {
+export class MagicUrlsComponent {
   public NavigationTargets: typeof NavigationTargets = NavigationTargets;
 }

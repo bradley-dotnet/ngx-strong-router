@@ -1,0 +1,37 @@
+<h1>What Could Possibly Go Wrong?</h1>
+
+<section>
+    It's easy to argue that routing doesn't need to change. After all, the web still works the way it is. But let's say that I want
+    to change the name of this route to "potential-problems". Easy enough, I just update the name in the routing module. Of course,
+    that broke the left nav so I'll go update the link there.
+</section>
+
+<br/>
+
+<section>
+    But what about the link on the button that brings you here from the previous page? What about the back button on the <i>next</i> page?
+    Often times you can get away with searching for the previous URL and replacing it with the new one, but sometimes the URL is buried in
+    string interpolation/concatenation and so doesn't match the text search. Or the string is quite common and so while trying to pick through
+    the mass of results you miss a few.
+</section>
+
+<br/>
+
+<section>
+    That's just the tip of the iceberg. You could accidentally import a routed module into another routed module and have ambiguous routing
+    based on when pieces were loaded. Or have done that with no issue, but the above refactor created a conflict that now makes a link ambiguous.
+    If you added a route parameter it's entirely possible that the link will still work but either try to fetch incorrect data when it
+    interprets the main segment as the parameter, or navigate you somewhere completley different.
+</section>
+
+<br/>
+
+<section>
+    While they are admittedly uncommon, routing bugs are extermely difficult to track down, and often even reproduce. So it seems
+    worth the effort to reduce or remove the possibility of having them occur.
+</section>
+
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.TheoryMagicUrls" mat-flat-button color="accent">Back</a>
+<a [ngxStrongRouterLink]="NavigationTargets.TheoryNamedRoutes" mat-flat-button color="accent">Next</a>

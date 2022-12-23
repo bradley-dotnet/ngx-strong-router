@@ -1,0 +1,56 @@
+<h1>Resilient Links - Strong Routing</h1>
+
+<section>
+    The primary flaw in the named routing scheme is that the master list of routes has to be maintained by hand. But
+    all of the information needed to <i>generate</i> the list is readily available at runtime! If an application
+    could have compile-time constants that mapped into this runtime-generated list of available routes, broken links
+    would become a thing of the past. This is the driving principle behind strong routing. With a strong router,
+    no magic strings or URLs exist anywhere in the code, instead there is a well-known, global, constant value (usually a numeric enum)
+    that is mapped to the current, correct URL at runtime by the router itself.
+</section>
+
+<br/>
+
+<section>
+    There is a small bit of added complexity to make such a scheme work. All possible routes must be loaded
+    at application start for the strong router to map. Of course, lazy loaded routes are by design <i>not</i> loaded
+    until needed. So with a standard routing config, this causes the previously lazy loaded components to be
+    bundled with the rest of the primary bundle code. Angular's routing system is flexible enough however to provide
+    a solution. A route tree defined in one file, one without any imports to the components or providers used,
+    is provided to the router such that it is included in the main bundle. Since there are no external exports,
+    the impact to the initial bundle size is minimal. Then the "real" routing module/standalone routes file can run a function
+    before loading the routes, populating the components and routes into the full route tree before giving it to Angular's router.
+</section>
+
+<br/>
+
+<section>
+    Once lazy loaded routes are setup, the only other change needed for strong routing is adding metadata to each route indicating
+    which constant, or "target" should map to it. The enum should live in an application-wide accessible space so that all
+    code can easily access it. Now instead of navigating to a magic URL, consuming code simply calls <code>router.navigate(NavigationTargets.Home)</code>.
+    The fact that the entire route tree has been loaded and analyzed provides a few other benefits:
+    <ul>
+        <li>
+            Route parameters can automatically be parsed out and mapped to a provided params object. If any keys are missing, a descriptive error
+            can be thrown instead of navigating in an unpredictable way.
+        </li>
+        <li>
+            If there is no mapped route for a target, a descriptive error can be thrown instead of failing silently, or worse navigating
+            to a seemingly random point in the app.
+        </li>
+        <li>
+            If the same target is present twice (ambiguous routing), a warning can be generated instead of causing inconsitent and
+            hard to diagnose bugs.
+        </li>
+        <li>
+            All of this can be done both at the root level and at any point in the route tree, meaning that a route that would
+            normally be ambigous can be reliably and safely resolved relative to the current application location.
+        </li>
+    </ul>
+
+    And of course, never have a broken link in the application again!
+</section>
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.TheoryNamedRoutes" mat-flat-button color="accent">Back</a>
+<a [ngxStrongRouterLink]="NavigationTargets.SetupHome" mat-flat-button color="primary">Get Started</a>

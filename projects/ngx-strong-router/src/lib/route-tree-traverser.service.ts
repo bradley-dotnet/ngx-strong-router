@@ -16,6 +16,9 @@ export class RouteTreeTraverserService<TNavTargets> {
         segments.push(route.path)
       }
       if (this.isEagerRoute(route)) {
+        if (targets.has(route.navigationTarget)) {
+          console.warn(`Multiple entries for target ${route.navigationTarget} found`);
+        }
         targets.set(route.navigationTarget, segments);
       }
       

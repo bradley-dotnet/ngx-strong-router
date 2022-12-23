@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<mat-nav-list>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.TheoryMagicUrls" routerLinkActive="list-item-active">Magic URLs</a>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.TheoryRefactoringMishaps" routerLinkActive="list-item-active">Refactoring Mishaps</a>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.TheoryNamedRoutes" routerLinkActive="list-item-active">Named Routes</a>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.TheoryStrongRoutes" routerLinkActive="list-item-active">Strong Routes</a>
+</mat-nav-list>
+<div class="content">
+    <router-outlet></router-outlet>
+</div>
