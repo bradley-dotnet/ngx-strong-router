@@ -2,10 +2,7 @@ import { EnvironmentProviders, Provider, Type } from '@angular/core';
 import { Route, Routes } from '@angular/router';
 import { LazyChild } from './strong-route.model';
 
-interface EntryFields {
-    component: Type<any>;
-    providers: Array<Provider | EnvironmentProviders>;
-}
+type EntryFields = Pick<Route, 'component' | 'providers'| 'canActivate' | 'canActivateChild' | 'resolve' | 'canLoad' | 'canDeactivate'>;
 
 export type RouteEntry = EntryFields | Type<any> | Array<Provider | EnvironmentProviders>;
 
@@ -29,7 +26,12 @@ export const populateRoutes:  <TEntries extends number>(map: Record<TEntries, Ro
             else {
                 update = {
                     component: entry.component,
-                    providers: entry.providers
+                    providers: entry.providers,
+                    canActivate: entry.canActivate,
+                    canActivateChild: entry.canActivateChild,
+                    resolve: entry.resolve,
+                    canDeactivate: entry.canDeactivate,
+                    canLoad: entry.canLoad,
                 }
             }
         }

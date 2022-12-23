@@ -12,7 +12,8 @@ export interface LazyRoute<TNavTargets, TComponent extends number> extends Omit<
     navigationTarget?: TNavTargets;
 }
 
-export interface LazyChild<TNavTargets, TComponent extends number> extends Omit<EagerRoute<TNavTargets>, 'component' | 'providers' | 'children'> {
+export interface LazyChild<TNavTargets, TComponent extends number> extends Omit<EagerRoute<TNavTargets>,
+    'component' | 'providers' | 'children' | 'canActivate' | 'canActivateChild' | 'resolve' | 'canLoad' | 'canDeactivate'> {
     routeEntry?: TComponent;
     children?: LazyChild<TNavTargets, TComponent>[];
 }
