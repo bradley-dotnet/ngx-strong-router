@@ -1,0 +1,121 @@
+<h1>Strong Routing with Lazy Loaded Routes</h1>
+
+<section>
+    When lazy loading rotes, two things are different under strong routing. First, the <code>childRouteConfigs</code>
+    field is required anytime <code>loadChildren</code> is used. That field should be set to the non-populated
+    routing array, which is the second difference. On the parent route side, it looks like:
+
+    <mat-card>
+        <mat-card-title class="file-name">app-routing.module.ts</mat-card-title>
+        <mat-card-content>
+            <pre><code>{{'{'}}
+    path: 'setup',
+    loadChildren: () => import('./setup/setup.populated-routes').then(r => r.populatedSetupRoutes),
+    childRouteConfigs: setupRoutes,
+    navigationTarget: NavigationTargets.SetupHome
+},
+{{'{'}}
+    path: 'theory',
+    loadChildren: () => import('./theory/theory.module').then(m => m.TheoryModule),
+    childRouteConfigs: theoryRoutes,
+    navigationTarget: NavigationTargets.TheoryHome
+}</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    The non-populated route array must be a <code>{{'LazyChild\<NavigationTargets, FeatureRouteEntries>[]'}}</code> where
+    <code>RouteEntries</code> is an enum that is used to mark where components, providers, guards, etc. will be
+    populated when the Angular Router loads the actual standalone routes or routing module. Such as:
+
+    <mat-card>
+        <mat-card-title class="file-name">feature.routes.ts</mat-card-title>
+        <mat-card-content>
+            <pre><code>export enum FeatureRouteEntries {{'{'}}
+    Root,
+    Search,
+    Details,
+}
+            
+export const featureRoutes: {{'LazyChild\<NavigationTargets, FeatureRouteEntries>[]'}} = [
+{{'{'}}
+    path: '',
+    routeEntry: FeatureRouteEntries.Root,
+    children: [
+        {{'{'}}
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'basics'
+        },
+        {{'{'}}
+            path: 'search',
+            routeEntry: FeatureRouteEntries.Search,
+            navigationTarget: NavigationTargets.FeatureSearch
+        },
+        {{'{'}}
+            path: ':itemId',
+            routeEntry: FeatureRouteEntries.List,
+            navigationTarget:NavigationTargets.FeatureDetails
+        }
+    ]
+}
+];</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    None of the following fields are allowed in non-populated routes to prevent unnecessary inflation of the main bundle:
+    <ul>
+        <li><code>component</code></li>
+        <li><code>providers</code></li>
+        <li><code>canActivate</code></li>
+        <li><code>canActivateChild</code></li>
+        <li><code>resolve</code></li>
+        <li><code>canLoad</code></li>
+        <li><code>canDeactivate</code></li>
+    </ul>
+</section>
+
+<br/>
+
+<section>
+    In the routing module, or a seperate routes file, the <code>populateRoutes</code> function is called with the non-populated
+    routes array and a <code>{{'Record\<FeatureRouteEntries, RouteEntry>[]'}}</code>. This function replaces each route entry
+    with the associated components, providers, etc. before the Angular Router sees it so it acts as a normal routing array.
+
+    For example:
+
+    <mat-card>
+        <mat-card-title class="file-name">feature.populated-routes.ts</mat-card-title>
+        <mat-card-content>
+            <pre><code>const componentMap: {{'Record\<FeatureRouteEntries, RouteEntry>[]'}} = {{'{'}}
+    [FeatureRouteEntries.Root]: [FeatureService],
+    [FeatureRouteEntries.Search]: SearchComponent,
+    [FeatureRouteEntries.Details]: {{'{'}}
+        component: DetailsComponent,
+        resolve: ItemResolver
+    },
+};
+
+export const populatedSetupRoutes: Routes = populateRoutes(componentMap, setupRoutes);</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    To limit boilerplate, providing a simple <code>Type</code> will populate the <code>component</code> field of the route, while
+    an array will populate the <code>providers</code> field. Combinations, or other fields, need an object that has any of the fields
+    excluded from <code>LazyChild</code>. Now that all routes are setup, all that's left is to update how navigation is performed.
+</section>
+
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.SetupNavigation" mat-flat-button color="accent">Navigation</a>

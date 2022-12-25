@@ -1,0 +1,67 @@
+<h1>Strong Navigation</h1>
+
+<section>
+    To create a link in a template, use the <code>ngxStrongRouterLink</code> directive instead of
+    <code>routerLink</code>. To import the directive, use:
+
+    <br/>
+
+    <pre><code>import {{'{'}}} StrongRouterLink } from 'ngx-strong-router';</code></pre>
+
+    <br/>
+
+    The directive's input is a <code>NavigationTarget</code>. Additionally, route parameters can be set
+    as an object through the <code>routeParams</code> input, or navigate relative to the current route
+    with the <code>navigateRelative</code> input. Altogether, it could look something like:
+
+    <mat-card>
+        <mat-card-title class="file-name">linking.component.html</mat-card-title>
+        <mat-card-content>
+            <pre><code>{{'\<a \[ngxStrongRouterLink]="NavigationTargets.List"'}}
+   {{'\[routeParams]="\{itemId: item.id\}"'}}
+   {{'\[navigateRelative]="true">'}}
+   Link
+{{'\</a>'}}
+</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    To navigate within a component or service, inject a <code>StrongRouter</code> instead of a <code>Router</code>.
+    Then call <code>navigateTo</code> or <code>navigateRelativeTo</code>. If you need a link instead, use
+    <code>generateLinkTo</code> or <code>generateLinkRelativeTo</code>. Each also takes the same route parameters
+    object as the directive, as well as the <code>NavigationExtras</code> from the standard <code>Router</code>.
+    To generate the same link as the example above:
+
+    <mat-card>
+        <mat-card-title class="file-name">linking.component.ts</mat-card-title>
+        <mat-card-content>
+            <pre><code>import {{'{'}}} StrongRouter } from 'ngx-strong-router';
+
+@Component() // Component metadata
+export class LinkingComponent implements OnInit {{'{'}}
+    @Input() item: Item;
+    public link: string;
+    constructor(private router: StrongRouter) {{'{'}}
+    }
+
+    public ngOnInit(): void {{'{'}}
+        this.link = router.generateLinkRelativeTo(NavigationTargets.List, {{'{'}} itemId: this.item.id });
+    }
+}</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    For full documentation of <code>StrongRouter</code> and <code>StrongRouterLink</code>, see the API docs.
+</section>
+
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.Api" mat-flat-button color="accent">Full API Documentation</a>

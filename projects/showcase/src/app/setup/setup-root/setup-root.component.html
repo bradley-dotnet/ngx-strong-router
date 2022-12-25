@@ -1,2 +1,8 @@
-<mat-nav-list></mat-nav-list>
-<router-outlet></router-outlet>
+<mat-nav-list>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.SetupBasics" routerLinkActive="list-item-active">Basic Setup</a>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.SetupLazyLoading" routerLinkActive="list-item-active">Lazy Loading</a>
+    <a mat-list-item [ngxStrongRouterLink]="NavigationTargets.SetupNavigation" routerLinkActive="list-item-active">Navigation</a>
+</mat-nav-list>
+<div class="content">
+    <router-outlet></router-outlet>
+</div>

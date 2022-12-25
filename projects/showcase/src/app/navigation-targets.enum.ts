@@ -6,5 +6,8 @@ export enum NavigationTargets {
     TheoryNamedRoutes,
     TheoryStrongRoutes,
     SetupHome,
+    SetupBasics,
+    SetupLazyLoading,
+    SetupNavigation,
     Api
 }

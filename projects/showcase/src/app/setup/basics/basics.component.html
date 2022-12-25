@@ -1,0 +1,68 @@
+<h1>Initial Setup</h1>
+
+<section>
+    To install the library, run:
+
+    <br/>
+
+    <pre><code>npm install ngx-strong-router@latest</code></pre>
+</section>
+
+<section>
+    The first step to setting up strong routing is to create a targets enum, often simply called <code>Navigation Targtes</code>.
+    This enum should have a member for each route in the application that can be navigated to. For example, the targets for this site are:
+
+    <mat-card>
+        <mat-card-title class="file-name">navigation-targets.enum.ts</mat-card-title>
+        <mat-card-content>
+            <pre><code>export enum NavigationTargets {{'{'}}
+    Home,
+    TheoryHome,
+    TheoryMagicUrls,
+    TheoryRefactoringMishaps,
+    TheoryNamedRoutes,
+    TheoryStrongRoutes,
+    SetupHome,
+    SetupBasics,
+    SetupLazyLoading,
+    SetupNavigation,
+    Api
+}</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    Once the targets enum is created, the applcation routes need to be changed from <code>Routes</code> to <code>{{'StrongRoutes\<NavigationTargets>'}}</code>.
+    That allows eagerly loaded routes to use the <code>navigationTarget</code> field.
+
+    <mat-card>
+        <mat-card-title class="file-name">app-routing.module.ts</mat-card-title>
+        <mat-card-content>
+            <pre><code>const routes: {{'StrongRoutes\<NavigationTargets>'}}[] = [
+{{'{'}}
+    path: '',
+    pathMatch: 'full',
+    component: HomeComponent,
+    navigationTarget: NavigationTargets.Home
+},
+{{'{'}}
+    path: 'api',
+    loadComponent: () => import('./api/api.component').then(c => c.ApiComponent),
+    navigationTarget: NavigationTargets.Api
+}];</code></pre>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<br/>
+
+<section>
+    Routes with the <code>loadChildren</code> property are handled differently, as shown in the Lazy Loading section.
+</section>
+
+<mat-divider></mat-divider>
+
+<a [ngxStrongRouterLink]="NavigationTargets.SetupLazyLoading" mat-flat-button color="accent">Lazy Loading</a>

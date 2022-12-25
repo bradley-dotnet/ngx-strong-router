@@ -1,7 +1,21 @@
 :host {
     display: flex;
+    height: 100%;
 }
 
-router-outlet {
-    flex: 1
+.content {
+    flex: 1;
+    padding: 1rem;
+}
+
+.list-item-active {
+    background-color: rgba(156, 39, 176, .75);
+  
+    &:hover{
+        background-color: rgba(156, 39, 176, .3);
+    }
+}
+
+a[mat-list-item]:focus {
+    background-color: rgba(156, 39, 176, .75);
 }
