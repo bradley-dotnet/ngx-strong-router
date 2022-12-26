@@ -1,1 +1,81 @@
-<p>api works!</p>
+<h1>API Documentation</h1>
+
+<h2>StrongRouterLink</h2>
+<h3>Import</h3>
+<pre><code>import {{'{'}} StrongRouterLink } from 'ngx-strong-router';</code></pre>
+
+<h3>Usage</h3>
+<section>
+    Use in templates with the <code>ngxStrongRouterLink</code> selector to replace <code>routerLink</code>
+    for generating links and performing navigation.
+</section>
+
+<h3>Inputs</h3>
+<ng-container *ngTemplateOutlet="paramTable; context: {$implicit: linkDirectiveParams}"></ng-container>
+
+<h3>Example</h3>
+<mat-card>
+    <mat-card-content>
+        <pre><code>{{'\<a \[ngxStrongRouterLink]="NavigationTargets.Details"'}}
+   {{'\[routeParams]="\{itemId: item.id\}"'}}
+   View Details
+{{'\</a>'}}
+</code></pre>
+    </mat-card-content>
+</mat-card>
+
+<h2>StrongRouter</h2>
+<h3>Import</h3>
+<pre><code>import {{'{'}} StrongRouter } from 'ngx-strong-router';</code></pre>
+
+<h3>Usage</h3>
+<section>
+    Use in components or services to replace <code>Router</code> when navigating around the application.
+    Also can generate links to any point in the application.
+</section>
+
+<h3>Methods</h3>
+<h4>navigateTo</h4>
+<section>Navigate directly to a target.</section>
+<ng-container *ngTemplateOutlet="paramTable; context: {$implicit: navigateParams}"></ng-container>
+
+<h4>generateLinkTo</h4>
+<section>Generate a link to a target.</section>
+<ng-container *ngTemplateOutlet="paramTable; context: {$implicit: linkParams}"></ng-container>
+
+<h4>navigateRelativeTo</h4>
+<section>Navigate to a target that is a child of the current route.</section>
+<ng-container *ngTemplateOutlet="paramTable; context: {$implicit: navigateRelativeParams}"></ng-container>
+
+<h4>generateLinkRelativeTo</h4>
+<section>Generate a link to a target that is a child of the current route.</section>
+<ng-container *ngTemplateOutlet="paramTable; context: {$implicit: linkRelativeParams}"></ng-container>
+
+<h3>Example</h3>
+<mat-card>
+    <mat-card-content>
+        <pre><code>import {{'{'}} StrongRouter } from 'ngx-strong-router';
+
+@Component() // Component metadata
+export class LinkingComponent implements OnInit {{'{'}}
+@Input() item: Item;
+constructor(
+    private router: StrongRouter,
+    private route: ActivatedRoute) {{'{'}}
+}
+
+public showDetails(): void {{'{'}}
+    this.link = router.navigateRelativeTo(NavigationTargets.List, this.route.snapshot, {{'{'}} itemId: this.item.id });
+}</code></pre>
+    </mat-card-content>
+</mat-card>
+
+<ng-template #paramTable let-data>
+    <table mat-table [dataSource]="data">
+        <mat-text-column name="name"></mat-text-column>
+        <mat-text-column name="description"></mat-text-column>
+    
+        <tr mat-header-row *matHeaderRowDef="['name', 'description']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'description'];"></tr>
+    </table>
+</ng-template>

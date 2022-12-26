@@ -6,7 +6,7 @@
 
     <br/>
 
-    <pre><code>import {{'{'}}} StrongRouterLink } from 'ngx-strong-router';</code></pre>
+    <pre><code>import {{'{'}} StrongRouterLink } from 'ngx-strong-router';</code></pre>
 
     <br/>
 
@@ -17,10 +17,10 @@
     <mat-card>
         <mat-card-title class="file-name">linking.component.html</mat-card-title>
         <mat-card-content>
-            <pre><code>{{'\<a \[ngxStrongRouterLink]="NavigationTargets.List"'}}
+            <pre><code>{{'\<a \[ngxStrongRouterLink]="NavigationTargets.Details"'}}
    {{'\[routeParams]="\{itemId: item.id\}"'}}
    {{'\[navigateRelative]="true">'}}
-   Link
+   ViewDetails
 {{'\</a>'}}
 </code></pre>
         </mat-card-content>
@@ -39,7 +39,7 @@
     <mat-card>
         <mat-card-title class="file-name">linking.component.ts</mat-card-title>
         <mat-card-content>
-            <pre><code>import {{'{'}}} StrongRouter } from 'ngx-strong-router';
+            <pre><code>import {{'{'}} StrongRouter } from 'ngx-strong-router';
 
 @Component() // Component metadata
 export class LinkingComponent implements OnInit {{'{'}}
@@ -49,7 +49,7 @@ export class LinkingComponent implements OnInit {{'{'}}
     }
 
     public ngOnInit(): void {{'{'}}
-        this.link = router.generateLinkRelativeTo(NavigationTargets.List, {{'{'}} itemId: this.item.id });
+        this.link = router.generateLinkTo(NavigationTargets.List, {{'{'}} itemId: this.item.id });
     }
 }</code></pre>
         </mat-card-content>
