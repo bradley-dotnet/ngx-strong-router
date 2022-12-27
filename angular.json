@@ -66,6 +66,7 @@
             "polyfills": "projects/showcase/src/polyfills.ts",
             "tsConfig": "projects/showcase/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "baseHref": "/",
             "assets": [
               "projects/showcase/src/favicon.ico",
               "projects/showcase/src/assets"
@@ -96,7 +97,8 @@
                   "with": "projects/showcase/src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/ionic-power-tools/"
             },
             "development": {
               "buildOptimizer": false,
