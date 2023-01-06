@@ -23,7 +23,8 @@ describe('routePopulator', () => {
                 children: [
                     {
                         path: 'child',
-                        routeEntry: RouteEntries.Child
+                        routeEntry: RouteEntries.Child,
+                        data: { initial: 'Test' }
                     }
                 ]
             }
@@ -44,6 +45,7 @@ describe('routePopulator', () => {
                     {
                         path: 'child',
                         component: TestChildComponent,
+                        data: { initial: 'Test' }
                     }
                 ]
             }
@@ -63,7 +65,8 @@ describe('routePopulator', () => {
                 children: [
                     {
                         path: 'child',
-                        providers: [{ provide: TestChildService, useClass: TestChildService }]
+                        providers: [{ provide: TestChildService, useClass: TestChildService }],
+                        data: { initial: 'Test' }
                     }
                 ]
             }
@@ -87,11 +90,74 @@ describe('routePopulator', () => {
                 path: 'parent',
                 component: TestComponent,
                 providers: [TestService],
+                data: undefined,
                 children: [
                     {
                         path: 'child',
                         component: TestChildComponent,
                         providers: [TestChildService],
+                        data: { initial: 'Test' }
+                    }
+                ]
+            }
+        ]);
+    });
+
+    it('uses entry data when no route data is present', () => {
+        const entryMap = {
+            [RouteEntries.Parent]: {
+                data: { update: 'New Parent' }
+            },
+            [RouteEntries.Child]: {
+                component: TestChildComponent,
+                providers: [TestChildService]
+            }
+        }
+        const populated: Routes = populateRoutes(entryMap, routes);
+        expect(populated).toEqual([
+            {
+                path: 'parent',
+                data: { update: 'New Parent' },
+                children: [
+                    {
+                        path: 'child',
+                        component: TestChildComponent,
+                        providers: [TestChildService],
+                        data: { initial: 'Test' }
+                    }
+                ]
+            }
+        ]);
+    });
+
+    it('combines entry data with route data when both are present', () => {
+        const entryMap = {
+            [RouteEntries.Parent]: {
+                component: TestComponent,
+                providers: [TestService]
+            },
+            [RouteEntries.Child]: {
+                component: TestChildComponent,
+                providers: [TestChildService],
+                data: { update: 'New Child' },
+            }
+        }
+        const populated: Routes = populateRoutes(entryMap, routes);
+        expect(populated).toEqual([
+            {
+                path: 'parent',
+                component: TestComponent,
+                providers: [TestService],
+                data: undefined,
+                children: [
+                    {
+                        path: 'child',
+                        component: TestChildComponent,
+                        providers: [TestChildService],
+                        data: {
+                            initial: 'Test',
+                            update: 'New Child'
+                        }
                     }
                 ]
             }

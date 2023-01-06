@@ -33,6 +33,7 @@ describe('StrongRouterLink', () => {
 
   it('sets router link to generated url', () => {
       strongRouterSpy.generateLinkTo.and.returnValue('/test');
+      directive.ngxStrongRouterLink = TestTargets.Test;
       directive.ngOnChanges({
         ngxStrongRouterLink: {
           isFirstChange: () => true,
@@ -47,8 +48,8 @@ describe('StrongRouterLink', () => {
   });
 
   it('sets href to generated link', () => {
-    routerSpy
     strongRouterSpy.generateLinkTo.and.returnValue('/test');
+    directive.ngxStrongRouterLink = TestTargets.Test;
     directive.ngOnChanges({
       ngxStrongRouterLink: {
         isFirstChange: () => true,

@@ -65,6 +65,16 @@ export const featureRoutes: {{'LazyChild\<NavigationTargets, FeatureRouteEntries
 ];</code></pre>
         </mat-card-content>
     </mat-card>
+
+    <mat-card>
+        <mat-card-content class="icon-card">
+            <span class="material-icons">warning</span>
+            <span>
+                When using federated modules, the unpopulated routes files should be in their own library entry point to
+                prevent the entire library from being eagerly fetched on app start.
+            </span>
+        </mat-card-content>
+    </mat-card>
 </section>
 
 <br/>
@@ -106,6 +116,12 @@ export const featureRoutes: {{'LazyChild\<NavigationTargets, FeatureRouteEntries
 export const populatedSetupRoutes: Routes = populateRoutes(componentMap, setupRoutes);</code></pre>
         </mat-card-content>
     </mat-card>
+
+    <br/>
+
+    <code>data</code> can also be provided in the <code>routeEntry</code> object. Unlike the other fields which are not allowed in
+    a <code>LazyChild</code>, data can be present in the routes file. Thus any data in the <code>routeEntry</code> will be merged
+    with any existing route data if it exists.
 </section>
 
 <br/>
