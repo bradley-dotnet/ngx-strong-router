@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StrongRoute, EagerRoute, LazyChild, LazyRoute } from './strong-route.model';
+import { ActivatedRouteSnapshot, createUrlTreeFromSnapshot, Params, UrlTree } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,11 @@ import { StrongRoute, EagerRoute, LazyChild, LazyRoute } from './strong-route.mo
 export class RouteTreeTraverserService<TNavTargets> {
   public mapTargets(routes: StrongRoute<TNavTargets>[]): Map<TNavTargets, string[]> {
     return this.createTargetMap(routes, []);
+  }
+
+  // Wrapper for the angular global so the router can mock it in tests
+  public createUrlTreeFromSnapshot(relativeTo: ActivatedRouteSnapshot, commands: any[], queryParams?: Params | null, fragment?: string | null): UrlTree {
+    return createUrlTreeFromSnapshot(relativeTo, commands, queryParams, fragment);
   }
 
   private createTargetMap(routes: (StrongRoute<TNavTargets> | LazyChild<TNavTargets, number>)[], parents: string[]): Map<TNavTargets, string[]> {

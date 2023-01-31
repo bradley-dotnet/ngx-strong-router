@@ -34,8 +34,9 @@ export class StrongRouter<TNavTargets> {
       const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children as StrongRoute<TNavTargets>[]);
       const segments = this.findSegments(target, relativeTargets);
       const route = this.createFullRoute(segments, params);
+      const urlTree = this.treeTraverser.createUrlTreeFromSnapshot(current, ['./', ...route]);
   
-      this.router.navigate(['./', ...route], extras);
+      this.router.navigateByUrl(urlTree, extras);
     }
     else {
       throw new Error('No child routes available')
@@ -47,8 +48,9 @@ export class StrongRouter<TNavTargets> {
       const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children as StrongRoute<TNavTargets>[]);
       const segments = this.findSegments(target, relativeTargets);
       const route = this.createFullRoute(segments, params);
+      const urlTree = this.treeTraverser.createUrlTreeFromSnapshot(current, ['./', ...route]);
 
-      return `./${route.join('/')}`;
+      return urlTree.toString();
     }
     else {
       throw new Error('No child routes available')

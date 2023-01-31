@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { RouteTreeTraverserService } from './route-tree-traverser.service';
 import { StrongRoute } from './strong-route.model';
 
@@ -20,8 +20,8 @@ describe('StrongRouter', () => {
   let service: StrongRouter<TestTargets>;
 
   beforeEach(() => {
-    routerSpy = jasmine.createSpyObj<Router>('routerSpy', ['navigate']);
-    treeTraverserSpy = jasmine.createSpyObj<RouteTreeTraverserService<TestTargets>>('traverserSpy', ['mapTargets']);
+    routerSpy = jasmine.createSpyObj<Router>('routerSpy', ['navigate', 'navigateByUrl']);
+    treeTraverserSpy = jasmine.createSpyObj<RouteTreeTraverserService<TestTargets>>('traverserSpy', ['mapTargets', 'createUrlTreeFromSnapshot']);
 
     treeTraverserSpy.mapTargets.and.returnValue(new Map([
       [TestTargets.Test, ['test', ':id']]
@@ -72,11 +72,14 @@ describe('StrongRouter', () => {
 
     it('navigates with proper parameters', () => {
       const extras = { replaceUrl: true };
+      // We're just calling toString on the UrlTree, which string also defines
+      treeTraverserSpy.createUrlTreeFromSnapshot.and.returnValue('/relative/bob' as unknown as UrlTree);
       service.navigateRealtiveTo(TestTargets.Test, currentRoute, { name: 'bob' }, extras);
 
       const children: StrongRoute<TestTargets>[] = currentRoute!.routeConfig!.children as StrongRoute<TestTargets>[];
+      expect(treeTraverserSpy.createUrlTreeFromSnapshot).toHaveBeenCalledWith(currentRoute, ['./', 'relative', 'bob'])
       expect(treeTraverserSpy.mapTargets).toHaveBeenCalledWith(children);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['./', 'relative', 'bob'], extras);
+      expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/relative/bob', extras);
     });
 
     it('throws when route parameter missing', () => {
@@ -108,11 +111,14 @@ describe('StrongRouter', () => {
     });
 
     it('generates link with proper parameters', () => {
+      // We're just calling toString on the UrlTree, which string also defines
+      treeTraverserSpy.createUrlTreeFromSnapshot.and.returnValue('/relative/bob' as unknown as UrlTree);
       const link = service.generateLinkRelativeTo(TestTargets.Test, currentRoute, { name: 'bob' });
 
       const children: StrongRoute<TestTargets>[] = currentRoute!.routeConfig!.children as StrongRoute<TestTargets>[];
+      expect(treeTraverserSpy.createUrlTreeFromSnapshot).toHaveBeenCalledWith(currentRoute, ['./', 'relative', 'bob'])
       expect(treeTraverserSpy.mapTargets).toHaveBeenCalledWith(children);
-      expect(link).toEqual('./relative/bob');
+      expect(link).toEqual('/relative/bob');
     });
 
     it('throws when route parameter missing', () => {
