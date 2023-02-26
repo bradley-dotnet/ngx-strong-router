@@ -74,7 +74,7 @@ describe('StrongRouter', () => {
       const extras = { replaceUrl: true };
       // We're just calling toString on the UrlTree, which string also defines
       treeTraverserSpy.createUrlTreeFromSnapshot.and.returnValue('/relative/bob' as unknown as UrlTree);
-      service.navigateRealtiveTo(TestTargets.Test, currentRoute, { name: 'bob' }, extras);
+      service.navigateRelativeTo(TestTargets.Test, currentRoute, { name: 'bob' }, extras);
 
       const children: StrongRoute<TestTargets>[] = currentRoute!.routeConfig!.children as StrongRoute<TestTargets>[];
       expect(treeTraverserSpy.createUrlTreeFromSnapshot).toHaveBeenCalledWith(currentRoute, ['./', 'relative', 'bob'])
@@ -83,7 +83,7 @@ describe('StrongRouter', () => {
     });
 
     it('throws when route parameter missing', () => {
-      expect(() => service.navigateRealtiveTo(TestTargets.Test, currentRoute, { id: 1 }))
+      expect(() => service.navigateRelativeTo(TestTargets.Test, currentRoute, { id: 1 }))
         .toThrowError('Required route parameter name was not found in route params object');
 
       const children: StrongRoute<TestTargets>[] = currentRoute!.routeConfig!.children as StrongRoute<TestTargets>[];
@@ -94,7 +94,7 @@ describe('StrongRouter', () => {
       treeTraverserSpy.mapTargets.and.returnValue(new Map([
         [TestTargets.NonExistent, ['relative', ':name']]
       ]));
-      expect(() => service.navigateRealtiveTo(TestTargets.Test, currentRoute))
+      expect(() => service.navigateRelativeTo(TestTargets.Test, currentRoute))
         .toThrowError('Could not find navigation target 0 anywhere in route config');
 
       const children: StrongRoute<TestTargets>[] = currentRoute!.routeConfig!.children as StrongRoute<TestTargets>[];

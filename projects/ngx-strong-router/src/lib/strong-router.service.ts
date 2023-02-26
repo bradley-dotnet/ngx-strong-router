@@ -29,7 +29,7 @@ export class StrongRouter<TNavTargets> {
     return `/${route.join('/')}`;
   }
 
-  public navigateRealtiveTo(target: TNavTargets, current: ActivatedRouteSnapshot, params?: Record<string, string | number>, extras?: NavigationExtras): void {
+  public navigateRelativeTo(target: TNavTargets, current: ActivatedRouteSnapshot, params?: Record<string, string | number>, extras?: NavigationExtras): void {
     if (current.routeConfig?.children) {
       const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children as StrongRoute<TNavTargets>[]);
       const segments = this.findSegments(target, relativeTargets);
