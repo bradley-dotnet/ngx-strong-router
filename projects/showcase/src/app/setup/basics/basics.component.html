@@ -9,7 +9,7 @@
 </section>
 
 <section>
-    The first step to setting up strong routing is to create a targets enum, often simply called <code>Navigation Targtes</code>.
+    The first step to setting up strong routing is to create a targets enum, often simply called <code>NavigationTargets</code>.
     This enum should have a member for each route in the application that can be navigated to. For example, the targets for this site are:
 
     <mat-card>
@@ -41,7 +41,7 @@
     <mat-card>
         <mat-card-title class="file-name">app-routing.module.ts</mat-card-title>
         <mat-card-content>
-            <pre><code>const routes: {{'StrongRoutes\<NavigationTargets>'}}[] = [
+            <pre><code>const routes: {{'StrongRoute\<NavigationTargets>'}}[] = [
 {{'{'}}
     path: '',
     pathMatch: 'full',
