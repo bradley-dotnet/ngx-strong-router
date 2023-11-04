@@ -11,7 +11,8 @@
     <br/>
 
     The directive's input is a <code>NavigationTarget</code>. Additionally, route parameters can be set
-    as an object through the <code>routeParams</code> input, or navigate relative to the current route
+    as an object through the <code>routeParams</code> input, or navigate relative to either the current route (by passing true)
+    or to the provided <code>ActivatedRouteSnapshot</code> (by passing an appropriate snapshot instance)
     with the <code>navigateRelative</code> input. Altogether, it could look something like:
 
     <mat-card>

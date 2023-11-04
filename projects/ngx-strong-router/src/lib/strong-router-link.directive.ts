@@ -1,6 +1,6 @@
 import { LocationStrategy } from '@angular/common';
 import { Attribute, Directive, ElementRef, forwardRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterLink } from '@angular/router';
 import { StrongRouter } from './strong-router.service';
 
 @Directive({
@@ -13,7 +13,7 @@ import { StrongRouter } from './strong-router.service';
 export class StrongRouterLink<TNavTargets> extends RouterLink implements OnChanges {
   @Input() public ngxStrongRouterLink: TNavTargets | undefined;
   @Input() public routeParams: Record<string, any> | undefined;
-  @Input() public navigateRelative: true | false | undefined;
+  @Input() public navigateRelative: true | false | ActivatedRouteSnapshot | undefined;
 
   private currentRoute: ActivatedRoute;
   
@@ -32,8 +32,9 @@ export class StrongRouterLink<TNavTargets> extends RouterLink implements OnChang
   override ngOnChanges(changes: SimpleChanges): void {
     if (changes['ngxStrongRouterLink'] || changes['routeParams'] || changes['navigateRelative']) {
       if(this.ngxStrongRouterLink != null) {
+        const relativeTo = typeof this.navigateRelative === 'object' ? this.navigateRelative : this.currentRoute.snapshot;
         const url = this.navigateRelative ?
-          this.strongRouter.generateLinkRelativeTo(this.ngxStrongRouterLink, this.currentRoute.snapshot, this.routeParams) :
+          this.strongRouter.generateLinkRelativeTo(this.ngxStrongRouterLink, relativeTo, this.routeParams) :
           this.strongRouter.generateLinkTo(this.ngxStrongRouterLink, this.routeParams);
         this.routerLink = url;
       }
